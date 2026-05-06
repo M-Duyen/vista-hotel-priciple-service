@@ -9,21 +9,13 @@ import com.hotelvista.model.HourlyRatePolicy;
 import com.hotelvista.model.Promotion;
 import com.hotelvista.model.RoomTypePromotion;
 import com.hotelvista.model.SeasonalPrice;
-import com.hotelvista.model.enums.DiscountType;
 import com.hotelvista.util.PricingMathUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,7 +61,7 @@ public class PricingCalculationService {
             SeasonalPrice bestSeasonalPrice = seasonalPrices.stream()
                     .max(Comparator.comparingDouble(SeasonalPrice::getPriceMultiplier)
                             .thenComparing(SeasonalPrice::getStartDate))
-                    .orElse(seasonalPrices.getFirst());
+                    .orElse(seasonalPrices.get(0));
             seasonalPriceId = bestSeasonalPrice.getId();
             seasonalMultiplier = bestSeasonalPrice.getPriceMultiplier();
             currentPrice = request.getBasePrice() * seasonalMultiplier;
