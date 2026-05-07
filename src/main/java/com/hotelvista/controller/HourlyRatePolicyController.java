@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hourly-rate-policies")
+@RequestMapping("/api/hourly-rate-policies")
 public class HourlyRatePolicyController {
     private final HourlyRatePolicyService service;
 

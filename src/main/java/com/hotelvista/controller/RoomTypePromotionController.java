@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room-type-promotions")
+@RequestMapping("/api/room-type-promotions")
 public class RoomTypePromotionController {
     private final RoomTypePromotionService service;
 

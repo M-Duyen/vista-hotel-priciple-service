@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/promotion-types")
+@RequestMapping("/api/promotion-types")
 public class PromotionTypeController {
     private final PromotionTypeService service;
 

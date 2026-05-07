@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/pricing")
+@RequestMapping("/api/pricing")
 public class PricingController {
     private final PricingCalculationService service;
 
