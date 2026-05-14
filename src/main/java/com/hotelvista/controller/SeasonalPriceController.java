@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/seasonal-prices")
+@RequestMapping("/seasonal-prices")
 public class SeasonalPriceController {
     private final SeasonalPriceService service;
 

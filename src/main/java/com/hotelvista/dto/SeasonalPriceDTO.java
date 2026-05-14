@@ -1,6 +1,7 @@
 package com.hotelvista.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class SeasonalPriceDTO {
 
     private String description;
 
-    private Set<String> roomTypeIds = new HashSet<>();
+    @NotEmpty
+    private Set<@NotBlank String> roomTypeIds = new HashSet<>();
 }
 

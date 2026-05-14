@@ -22,7 +22,7 @@ public class CheckInCheckOutPolicyRuleDTO {
 
     private Double surchargePercentage;
     private Boolean dayCharge;
-    private Integer freeForMinRankLevel;
+    private String freeForMinRankLevel;
     private Long policyId;
 }
 

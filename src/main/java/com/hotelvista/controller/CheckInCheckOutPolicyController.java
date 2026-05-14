@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/checkin-checkout-policies")
+@RequestMapping("/checkin-checkout-policies")
 public class CheckInCheckOutPolicyController {
     private final CheckInCheckOutPolicyService service;
 

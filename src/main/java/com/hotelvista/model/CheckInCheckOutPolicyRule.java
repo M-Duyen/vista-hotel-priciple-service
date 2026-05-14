@@ -37,7 +37,7 @@ public class CheckInCheckOutPolicyRule {
     @Column(name = "day_charge")
     private Boolean dayCharge;
 
-    private Integer freeForMinRankLevel;
+    private String freeForMinRankLevel;
 
     @Column(name = "policy_id")
     private Long policyId;

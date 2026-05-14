@@ -7,6 +7,8 @@ import com.hotelvista.model.HourlyRatePolicy;
 import com.hotelvista.model.RoomTypePromotion;
 import com.hotelvista.model.SeasonalPrice;
 
+import java.util.HashSet;
+
 public final class PricingRuleMapper {
     private PricingRuleMapper() {
     }
@@ -50,7 +52,7 @@ public final class PricingRuleMapper {
                 entity.getStartDate(),
                 entity.getEndDate(),
                 entity.getDescription(),
-                entity.getRoomTypeIds()
+                entity.getRoomTypeIds() == null ? new HashSet<>() : new HashSet<>(entity.getRoomTypeIds())
         );
     }
 
@@ -65,10 +67,10 @@ public final class PricingRuleMapper {
                 dto.getStartDate(),
                 dto.getEndDate(),
                 dto.getDescription(),
-                dto.getRoomTypeIds()
+                dto.getRoomTypeIds() == null ? new HashSet<>() : new HashSet<>(dto.getRoomTypeIds())
         );
         if (seasonalPrice.getRoomTypeIds() == null) {
-            seasonalPrice.setRoomTypeIds(new java.util.HashSet<>());
+            seasonalPrice.setRoomTypeIds(new HashSet<>());
         }
         return seasonalPrice;
     }
