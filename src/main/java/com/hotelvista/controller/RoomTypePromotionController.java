@@ -4,6 +4,7 @@ import com.hotelvista.dto.RoomTypePromotionDTO;
 import com.hotelvista.service.RoomTypePromotionService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -40,16 +41,19 @@ public class RoomTypePromotionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('promotion_manage')")
     public ResponseEntity<RoomTypePromotionDTO> save(@Valid @RequestBody RoomTypePromotionDTO dto) {
         return ResponseEntity.ok(service.save(dto));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('promotion_manage')")
     public RoomTypePromotionDTO update(@PathVariable Long id, @Valid @RequestBody RoomTypePromotionDTO dto) {
         return service.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('promotion_manage')")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
