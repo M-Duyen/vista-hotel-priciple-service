@@ -29,7 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-@Component
+//@Component
 public class DatabaseSeeder implements CommandLineRunner {
     private final PromotionTypeRepository promotionTypeRepository;
     private final PromotionRepository promotionRepository;

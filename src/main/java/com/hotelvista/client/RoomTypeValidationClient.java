@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelvista.exception.BadRequestException;
 import com.hotelvista.exception.ExternalServiceUnavailableException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.Duration;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -25,19 +23,14 @@ public class RoomTypeValidationClient {
     private final String roomServiceBaseUrl;
     private final String roomTypesPath;
 
-    public RoomTypeValidationClient(RestTemplateBuilder restTemplateBuilder,
-                                    ObjectMapper objectMapper,
-                                    @Value("${room.service.base-url:http://localhost:8082}") String roomServiceBaseUrl,
-                                    @Value("${room.service.room-types-path:/room-types}") String roomTypesPath,
-                                    @Value("${room.service.connect-timeout-ms:3000}") long connectTimeoutMs,
-                                    @Value("${room.service.read-timeout-ms:3000}") long readTimeoutMs) {
+    public RoomTypeValidationClient(RestTemplate restTemplate,
+            ObjectMapper objectMapper,
+            @Value("${room.service.base-url:lb://room-service}") String roomServiceBaseUrl,
+            @Value("${room.service.room-types-path:/api/room-types}") String roomTypesPath) {
+        this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
         this.roomServiceBaseUrl = roomServiceBaseUrl;
         this.roomTypesPath = roomTypesPath;
-        this.restTemplate = restTemplateBuilder
-                .setConnectTimeout(Duration.ofMillis(connectTimeoutMs))
-                .setReadTimeout(Duration.ofMillis(readTimeoutMs))
-                .build();
     }
 
     public void validateRoomTypeIds(Collection<String> roomTypeIds) {
@@ -57,18 +50,20 @@ public class RoomTypeValidationClient {
     }
 
     private Set<String> fetchAvailableRoomTypeIds() {
-        String url = UriComponentsBuilder.fromHttpUrl(roomServiceBaseUrl)
+        String url = UriComponentsBuilder.fromUriString(roomServiceBaseUrl)
                 .path(roomTypesPath)
                 .toUriString();
 
         try {
             ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null || response.getBody().isBlank()) {
+            if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null
+                    || response.getBody().isBlank()) {
                 throw new ExternalServiceUnavailableException("Room service returned an empty or invalid response");
             }
             return extractRoomTypeIds(objectMapper.readTree(response.getBody()));
         } catch (RestClientException ex) {
-            throw new ExternalServiceUnavailableException("Cannot reach room-service at " + url + ": " + ex.getMessage());
+            throw new ExternalServiceUnavailableException(
+                    "Cannot reach room-service at " + url + ": " + ex.getMessage());
         } catch (Exception ex) {
             throw new ExternalServiceUnavailableException("Invalid response from room-service: " + ex.getMessage());
         }
@@ -109,7 +104,8 @@ public class RoomTypeValidationClient {
             return java.util.Optional.empty();
         }
 
-        for (String fieldName : List.of("roomTypeId", "id", "room_type_id")) {
+        // room-service serializes the JPA field `roomTypeID` as JSON key `roomTypeID`
+        for (String fieldName : List.of("roomTypeID", "roomTypeId", "id", "room_type_id")) {
             JsonNode value = node.get(fieldName);
             if (value != null && !value.isNull() && !value.asText().isBlank()) {
                 return java.util.Optional.of(value.asText().trim());
@@ -118,6 +114,3 @@ public class RoomTypeValidationClient {
         return java.util.Optional.empty();
     }
 }
-
-
-
