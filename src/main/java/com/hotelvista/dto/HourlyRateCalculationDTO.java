@@ -16,6 +16,7 @@ public class HourlyRateCalculationDTO {
     private Integer hours;
     private Integer basePercentage;
     private Boolean weekend;
+    private Boolean isWeekend;
     private Double weekendSurcharge;
     private Double totalPercentage;
     private Double totalAmount;
