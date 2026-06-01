@@ -32,7 +32,7 @@ public class SeasonalPriceController {
     }
 
     @GetMapping("/room-type/{roomTypeId}")
-    @PreAuthorize("hasAuthority('pricing_manage')")
+    @PreAuthorize("permitAll()")
     public List<SeasonalPriceDTO> findApplicable(@PathVariable String roomTypeId,
                                                  @RequestParam(required = false) LocalDate date) {
         return service.findApplicableByRoomTypeIdAndDate(roomTypeId, date == null ? LocalDate.now() : date);

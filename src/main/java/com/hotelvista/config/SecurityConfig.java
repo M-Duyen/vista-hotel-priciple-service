@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/actuator", "/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pricing/calculate-room-price", "/pricing/calculate-hourly-rate").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/seasonal-prices/room-type/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/promotions/**", "/promotion-types/**", "/room-type-promotions/**").permitAll()
                         .anyRequest().authenticated()
                 )
