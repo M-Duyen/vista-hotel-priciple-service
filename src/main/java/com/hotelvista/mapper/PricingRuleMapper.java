@@ -1,10 +1,8 @@
 package com.hotelvista.mapper;
 
 import com.hotelvista.dto.HourlyRatePolicyDTO;
-import com.hotelvista.dto.RoomTypePromotionDTO;
 import com.hotelvista.dto.SeasonalPriceDTO;
 import com.hotelvista.model.HourlyRatePolicy;
-import com.hotelvista.model.RoomTypePromotion;
 import com.hotelvista.model.SeasonalPrice;
 
 import java.util.HashSet;
@@ -13,33 +11,7 @@ public final class PricingRuleMapper {
     private PricingRuleMapper() {
     }
 
-    public static RoomTypePromotionDTO toDto(RoomTypePromotion entity) {
-        if (entity == null) {
-            return null;
-        }
-        return new RoomTypePromotionDTO(
-                entity.getId(),
-                entity.getRoomTypeId(),
-                entity.getPromotionId(),
-                entity.getDiscountValue(),
-                entity.getStartDate(),
-                entity.getEndDate()
-        );
-    }
 
-    public static RoomTypePromotion toEntity(RoomTypePromotionDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-        return new RoomTypePromotion(
-                dto.getId(),
-                dto.getRoomTypeId(),
-                dto.getPromotionId(),
-                dto.getDiscountValue(),
-                dto.getStartDate(),
-                dto.getEndDate()
-        );
-    }
 
     public static SeasonalPriceDTO toDto(SeasonalPrice entity) {
         if (entity == null) {
