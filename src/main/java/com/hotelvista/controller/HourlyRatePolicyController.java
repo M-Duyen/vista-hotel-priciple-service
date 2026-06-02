@@ -19,13 +19,13 @@ public class HourlyRatePolicyController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAuthority('pricing_manage') or hasAuthority('room_view')")
+    @PreAuthorize("permitAll()")
     public List<HourlyRatePolicyDTO> findAll() {
         return service.findAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('pricing_manage') or hasAuthority('room_view')")
+    @PreAuthorize("permitAll()")
     public HourlyRatePolicyDTO findById(@PathVariable Long id) {
         return service.findById(id);
     }
